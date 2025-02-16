@@ -11,9 +11,15 @@ export class QuestionnairesService {
   ) {}
 
   async findAll(): Promise<Questionnaire[]> {
-    return this.questionnaireRepository.find({
+    const result = await this.questionnaireRepository.find({
       relations: ['questions', 'questions.question'],
+      order: {
+        questions: {
+          priority: 'ASC',
+        },
+      },
     });
+    return result;
   }
 
   async findOne(id: number): Promise<Questionnaire> {
